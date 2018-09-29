@@ -38,10 +38,12 @@ function closeConnection() {
 function getConnection() {
 console.log('trying to get a connections')
     if(databaseConection != null) {
+        console.log('in the if')
         return new Promise((resolve, reject) => {
             resolve(databaseConection);
         });
     } else {
+        console.log('in the else')
         return client.connect(uri).then((db) =>{
             console.log('got a connection');
             databaseConection = db;
