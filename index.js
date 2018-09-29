@@ -13,12 +13,14 @@ var uri = "mongodb://192.168.1.134:27017/rolling-tasks";
 // });
 client.connect(uri, function (err, db) {
     console.log(err);
-    var collection = db.collection('tasks');
+    var collectionTasks = db.collection('tasks');
+    var collectionTaskQueue = db.collection('task-queue');
     let task = {
-        name: 'empty cat box',
+        name: 'water plants',
         day: 'm',
         frequency: 'oddWeek'
     }
+
     let userQueue = {
         name: 'josh',
         evenWeek: 'y',
@@ -41,16 +43,27 @@ client.connect(uri, function (err, db) {
 
     
 
-    collection.insert(task, function (err, result) {
+    collectionTaskQueue.insert(userQueue, function (err, result) {
+        console.log(err)
+        console.log(result);
+    });
+    collectionTasks.insert(task, function (err, result) {
         console.log(err)
         console.log(result);
     });
     
     
-    collection.find({   }).toArray(function(err, docs) {
+    collectionTasks.find({   }).toArray(function(err, docs) {
         console.log(err)
         console.log(docs);
     });
+    
+    collectionTaskQueue.find({   }).toArray(function(err, docs) {
+        console.log(err)
+        console.log(docs);
+    });
+
+
     db.close();
   });
   
