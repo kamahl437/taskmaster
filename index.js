@@ -8,48 +8,43 @@ var uri = "mongodb://192.168.1.134:27017/rolling-tasks";
 var databaseConection = null;
 
 function start() {
-    client.connect(uri).then( function (db) {
-        console.log(db);
-        var collectionTasks = db.collection('tasks');
-        db.close();
-    });
-
-    // getTaskCollection()
-    //     .then((tasks) => {
-    //         tasks.find({})
-    //             .toArray()
-    //             .then(function (docs) {
-    //                 console.log(docs);
-    //             });
-    //     })
-
-    // getTaskQueueCollection()
-    //     .then((taskQueues) => {
-    //         taskQueues.find({})
-    //             .toArray()
-    //             .then(function (docs) {
-    //                 console.log(docs);
-    //             });
-    //     })
-
-    // closeConnection();
+    getTaskCollection()
+    .then((tasks) => {
+        tasks.find({})
+            .toArray()
+            .then(function (docs) {
+                console.log(docs);
+            });
+    })
+    .then(() =>{
+        return getTaskQueueCollection()
+        .then((taskQueues) => {
+            taskQueues.find({})
+                .toArray()
+                .then(function (docs) {
+                    console.log(docs);
+                });
+        })
+    }).then(() =>{
+        //this makes me feel bad.
+        //most likely I need to find when all system calls are done
+        //then do this instead of this janky promise biz
+        closeConnection();
+    })
 
 }
-
 
 function closeConnection() {
     databaseConection.close();
 }
 
 function getConnection() {
-console.log('trying to get a connections')
     if(databaseConection != null) {
         return new Promise((resolve, reject) => {
             resolve(databaseConection);
         });
     } else {
         return client.connect(uri).then(function(db) {
-            console.log('got a connection');
             databaseConection = db;
             return databaseConection;
         });
