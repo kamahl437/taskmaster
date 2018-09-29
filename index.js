@@ -42,10 +42,8 @@ console.log('trying to get a connections')
             resolve(databaseConection);
         });
     } else {
-        console.log(client)
         return client.connect(uri).then(function(db) {
             console.log('got a connection');
-            console.log(err);
             databaseConection = db;
             return databaseConection;
         });
