@@ -8,17 +8,23 @@ var uri = "mongodb://192.168.1.134:27017/rolling-tasks";
 var databaseConection;
 
 function start() {
-    getTaskCollection().find({})
-        .toArray()
-        .then(function (docs) {
-            console.log(docs);
-        });
+    getTaskCollection()
+        .then((tasks) => {
+            tasks.find({})
+                .toArray()
+                .then(function (docs) {
+                    console.log(docs);
+                });
+        })
 
-    getTaskQueueCollection().find({})
-        .toArray()
-        .then(function (docs) {
-            console.log(docs);
-        });
+    getTaskQueueCollection()
+        .then((taskQueues) => {
+            taskQueues.find({})
+                .toArray()
+                .then(function (docs) {
+                    console.log(docs);
+                });
+        })
 
     closeConnection();
 
