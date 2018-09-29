@@ -8,10 +8,9 @@ var uri = "mongodb://192.168.1.134:27017/rolling-tasks";
 var databaseConection = null;
 
 function start() {
-    client.connect(uri, function (err, db) {
-        console.log(err);
+    client.connect(uri).then( function (db) {
         console.log(db);
-        var collection = db.collection('tasks');
+        var collectionTasks = db.collection('tasks');
         db.close();
     });
 
