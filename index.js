@@ -48,13 +48,13 @@ function getConnection() {
     }
 }
 function getTaskCollection() {
-    getConnection()
+    return getConnection()
     .then((db) => {
         return db.collection('tasks');
     })
 }
 function getTaskQueueCollection() {
-    getConnection()
+    return getConnection()
     .then((db) => {
         return db.collection('task-queue');
     })
