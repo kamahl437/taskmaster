@@ -42,6 +42,7 @@ function getConnection() {
         });
     } else {
         return client.connect(uri).then((db) =>{
+            console.log('got a connection');
             databaseConection = db;
             return databaseConection;
         });
