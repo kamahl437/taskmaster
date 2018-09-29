@@ -44,8 +44,10 @@ console.log('trying to get a connections')
         });
     } else {
         console.log('in the else')
-        return client.connect(uri).then((db) =>{
+        console.log(uri)
+        return client.connect(uri).then((db, err) =>{
             console.log('got a connection');
+            console.log(err);
             databaseConection = db;
             return databaseConection;
         });
