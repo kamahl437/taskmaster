@@ -5,24 +5,54 @@ var client = mongodb.MongoClient;
 //need to add a user with access to my table
 // var uri = "mongodb://root:example@192.168.1.134:27017/rolling-tasks";
 var uri = "mongodb://192.168.1.134:27017/rolling-tasks";
+var databaseConection;
 
-client.connect(uri).then( function (db) {
-    var collectionTasks = db.collection('tasks');
-    var collectionTaskQueue = db.collection('task-queue');
-    collectionTasks.find({   })
-    .toArray()
-    .then(function(docs) {
-        console.log(docs);
-    });
-    
-    collectionTaskQueue.find({   })
-    .toArray()
-    .then(function(docs) {
-        console.log(docs);
-    });
-    
+function start() {
+    getTaskCollection().find({})
+        .toArray()
+        .then(function (docs) {
+            console.log(docs);
+        });
+
+    getTaskQueueCollection().find({})
+        .toArray()
+        .then(function (docs) {
+            console.log(docs);
+        });
+
+    closeConnection();
+
+}
+
+
+function closeConnection() {
     db.close();
-});
+}
+
+function getConnection() {
+    if(databaseConection) {
+        return new Promise((resolve, reject) => {
+            resolve(databaseConection);
+        });
+    } else {
+        return client.connect(uri).then((db) =>{
+            databaseConection = db;
+            return databaseConection;
+        });
+    }
+}
+function getTaskCollection() {
+    getConnection()
+    .then((db) => {
+        return db.collection('tasks');
+    })
+}
+function getTaskQueueCollection() {
+    getConnection()
+    .then((db) => {
+        return db.collection('task-queue');
+    })
+}
 
 function insertNewUserQueue(collection, user) {
     collection.insert(user, function (err, result) {
@@ -38,6 +68,8 @@ function insertNewTask(collection, task) {
     });
 
 }
+
+start();
   //subbing the dude to the task
   function subscribeUserToTask(user, task) {
 
