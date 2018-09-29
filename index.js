@@ -32,7 +32,7 @@ function start() {
 
 
 function closeConnection() {
-    db.close();
+    databaseConection.close();
 }
 
 function getConnection() {
