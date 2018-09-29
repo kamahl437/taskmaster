@@ -36,7 +36,7 @@ function closeConnection() {
 }
 
 function getConnection() {
-
+console.log('trying to get a connections')
     if(databaseConection != null) {
         return new Promise((resolve, reject) => {
             resolve(databaseConection);
