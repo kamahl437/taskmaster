@@ -5,7 +5,7 @@ var client = mongodb.MongoClient;
 //need to add a user with access to my table
 // var uri = "mongodb://root:example@192.168.1.134:27017/rolling-tasks";
 var uri = "mongodb://192.168.1.134:27017/rolling-tasks";
-var databaseConection;
+var databaseConection = null;
 
 function start() {
     getTaskCollection()
@@ -36,7 +36,8 @@ function closeConnection() {
 }
 
 function getConnection() {
-    if(databaseConection) {
+
+    if(databaseConection != null) {
         return new Promise((resolve, reject) => {
             resolve(databaseConection);
         });
