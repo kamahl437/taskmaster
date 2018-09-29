@@ -6,67 +6,38 @@ var client = mongodb.MongoClient;
 // var uri = "mongodb://root:example@192.168.1.134:27017/rolling-tasks";
 var uri = "mongodb://192.168.1.134:27017/rolling-tasks";
 
-
-/* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
-client.connect(uri, function (err, db) {
-    console.log(err);
+client.connect(uri).then( function (db) {
     var collectionTasks = db.collection('tasks');
     var collectionTaskQueue = db.collection('task-queue');
-    let task = {
-        name: 'water plants',
-        day: 'm',
-        frequency: 'oddWeek'
-    }
-
-    let userQueue = {
-        name: 'josh',
-        evenWeek: 'y',
-        tasks: [
-            {
-                name: 'test',
-                late: true,
-                entryDate: Date()
-            }
-        ],//will want to clear things so old.  but this will be fun to track my progress
-        finishedTasks: [
-            {
-                name: 'something I finished',
-                late: false,
-                entryDate: Date(),
-                finishedDate: Date()
-            }
-        ]
-    }
-
-    
-
-    collectionTaskQueue.insert(userQueue, function (err, result) {
-        console.log(err)
-        console.log(result);
-    });
-    collectionTasks.insert(task, function (err, result) {
-        console.log(err)
-        console.log(result);
-    });
-    
-    
-    collectionTasks.find({   }).toArray(function(err, docs) {
-        console.log(err)
+    collectionTasks.find({   })
+    .toArray()
+    .then(function(docs) {
         console.log(docs);
     });
     
-    collectionTaskQueue.find({   }).toArray(function(err, docs) {
-        console.log(err)
+    collectionTaskQueue.find({   })
+    .toArray()
+    .then(function(docs) {
         console.log(docs);
     });
-
-
+    
     db.close();
-  });
-  
+});
+
+function insertNewUserQueue(collection, user) {
+    collection.insert(user, function (err, result) {
+        console.log(err)
+        console.log(result);
+    });
+    
+}
+function insertNewTask(collection, task) {
+    collection.insert(task, function (err, result) {
+        console.log(err)
+        console.log(result);
+    });
+
+}
   //subbing the dude to the task
   function subscribeUserToTask(user, task) {
 
@@ -83,7 +54,34 @@ client.connect(uri, function (err, db) {
   function addTaskToQueue(user, task) {
 
   }
+//   let task = {
+//     name: 'water plants',
+//     day: 'm',
+//     frequency: 'oddWeek'
+// }
 
+// let userQueue = {
+//     name: 'josh',
+//     evenWeek: 'y',
+//     subscribedTasks: [
+//         'water plants', 'empty cat box'
+//     ],
+//     tasks: [
+//         {
+//             name: 'test',
+//             late: true,
+//             entryDate: Date()
+//         }
+//     ],//will want to clear things so old.  but this will be fun to track my progress
+//     finishedTasks: [
+//         {
+//             name: 'something I finished',
+//             late: false,
+//             entryDate: Date(),
+//             finishedDate: Date()
+//         }
+//     ]
+// }
 
 // router.get('/team/all', function(req, res, next) {
 //   client.connect(uri, function (err, db) {
