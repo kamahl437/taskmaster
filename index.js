@@ -14,7 +14,8 @@ function start() {
         tasks.find({})
             .toArray()
             .then(function (docs) {
-                console.log(_.find(docs, {name: 'josh'}));
+                let josh = _.find(docs, {name: 'josh'});
+                console.log(josh.tasks);
             });
     })
 
