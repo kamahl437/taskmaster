@@ -15,6 +15,7 @@ function start() {
             .toArray()
             .then(function (docs) {
                 let josh = _.find(docs, {name: 'josh'});
+                console.log(docs);
                 if(!josh) {
                     _.each(docs,(doc)=>{
                         if(doc.name == 'josh') {
