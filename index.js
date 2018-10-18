@@ -14,16 +14,7 @@ function start() {
         tasks.find({})
             .toArray()
             .then(function (docs) {
-                let josh = _.find(docs, {name: 'josh'});
-                console.log(docs);
-                if(!josh) {
-                    _.each(docs,(doc)=>{
-                        if(doc.name == 'josh') {
-                            josh = doc;
-                        }
-                    })
-                }
-                console.log(josh.tasks);
+               
             });
     })
 
@@ -32,6 +23,8 @@ function start() {
             taskQueues.find({})
                 .toArray()
                 .then(function (docs) {
+                    let josh = _.find(docs, {name: 'josh'});
+                    console.log(josh.tasks);
                 });
         })
 }
