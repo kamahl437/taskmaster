@@ -16,8 +16,8 @@ function start() {
                 console.log(docs);
             });
     })
-    .then(() =>{
-        return getTaskQueueCollection()
+
+    getTaskQueueCollection()
         .then((taskQueues) => {
             taskQueues.find({})
                 .toArray()
@@ -25,14 +25,9 @@ function start() {
                     console.log(docs);
                 });
         })
-    }).then(() =>{
-        //this makes me feel bad.
-        //most likely I need to find when all system calls are done
-        //then do this instead of this janky promise biz
-        closeConnection();
-    })
-
 }
+
+
 
 function closeConnection() {
     databaseConection.close();
