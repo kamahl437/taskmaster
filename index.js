@@ -15,6 +15,13 @@ function start() {
             .toArray()
             .then(function (docs) {
                 let josh = _.find(docs, {name: 'josh'});
+                if(!josh) {
+                    _.each(docs,(doc)=>{
+                        if(doc.name == 'josh') {
+                            josh = doc;
+                        }
+                    })
+                }
                 console.log(josh.tasks);
             });
     })
