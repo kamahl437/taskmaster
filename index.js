@@ -2,6 +2,7 @@
 // var router = express.Router();
 var mongodb = require('mongodb');
 var client = mongodb.MongoClient;
+var _ = require('lodash');
 //need to add a user with access to my table
 // var uri = "mongodb://root:example@192.168.1.134:27017/rolling-tasks";
 var uri = "mongodb://192.168.1.134:27017/rolling-tasks";
@@ -13,7 +14,7 @@ function start() {
         tasks.find({})
             .toArray()
             .then(function (docs) {
-                console.log(docs);
+                console.log(_.find(docs, {name: 'josh'}));
             });
     })
 
@@ -22,7 +23,6 @@ function start() {
             taskQueues.find({})
                 .toArray()
                 .then(function (docs) {
-                    console.log(docs);
                 });
         })
 }
