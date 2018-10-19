@@ -8,6 +8,9 @@ var _ = require('lodash');
 var uri = "mongodb://192.168.1.134:27017/rolling-tasks";
 var databaseConection = null;
 
+//Next Task: Add the view for tasks to an express route so I can make a view screen.
+//After that make an insert screen, then an assign to user screen.  Then you need to make the daemon that will schedule your tasks.
+
 function start() {
     getTaskCollection()
     .then((tasks) => {
@@ -86,7 +89,10 @@ start();
   }
 //adding a task with a schedule, not to a user yet
   function addScheduledTask(task) {
-
+    getTaskCollection()
+        .then((tasks) =>{
+            tasks.insertOne(task);
+        })
   }
 //user already subed to ask, just adding to queue
   function addTaskToQueue(user, task) {
