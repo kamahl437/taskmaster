@@ -13,8 +13,8 @@ var app = express();
 //Next Task: Add the view for tasks to an express route so I can make a view screen.
 //After that make an insert screen, then an assign to user screen.  Then you need to make the daemon that will schedule your tasks.
 
-app.use('/', router);
 app.use(bodyParser.json());
+app.use('/', router);
 app.listen(3000);
 ///Yay this works
 router.get('/tasks', function(req, res, next) {
