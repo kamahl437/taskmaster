@@ -1,5 +1,5 @@
-// var express = require('express');
-// var router = express.Router();
+var express = require('express');
+var router = express.Router();
 var mongodb = require('mongodb');
 var client = mongodb.MongoClient;
 var _ = require('lodash');
@@ -7,10 +7,25 @@ var _ = require('lodash');
 // var uri = "mongodb://root:example@192.168.1.134:27017/rolling-tasks";
 var uri = "mongodb://192.168.1.134:27017/rolling-tasks";
 var databaseConection = null;
+var app = express();
 
 //Next Task: Add the view for tasks to an express route so I can make a view screen.
 //After that make an insert screen, then an assign to user screen.  Then you need to make the daemon that will schedule your tasks.
 
+///Yay this works
+router.get('/tasks', function(req, res, next) {
+    getTaskCollection()
+    .then((tasks) => {
+        tasks.find({})
+            .toArray()
+            .then(function (docs) {
+                res.json(docs);
+            });
+    })
+});
+
+app.use('/', router);
+app.listen(3000);
 function start() {
     getTaskCollection()
     .then((tasks) => {
@@ -188,4 +203,4 @@ start();
 // }
 
 
-// module.exports = router;
+module.exports = router;
