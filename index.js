@@ -25,7 +25,7 @@ router.get('/tasks', function(req, res, next) {
     })
 });
 router.post('/task', function(req, res, next) {
-    console.log(req);
+    console.log(req.body);
 });
 
 app.use('/', router);
@@ -34,16 +34,6 @@ app.listen(3000);
 function start() {
     getTaskCollection()
     .then((tasks) => {
-        //   let task = {
-//     name: 'water plants',
-//     day: 'm',
-//     frequency: 'oddWeek'
-// }
-        insertNewTask(tasks, {
-            name: 'run dish washer',
-            day: 'sn',
-            frequency: 'w'
-        })
         tasks.find({})
             .toArray()
             .then(function (docs) {
