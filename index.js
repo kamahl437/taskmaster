@@ -23,8 +23,12 @@ router.get('/tasks', function(req, res, next) {
             });
     })
 });
+router.post('/task', function(req, res, next) {
+    console.log(req.body)
+});
 
 app.use('/', router);
+app.use(express.json());
 app.listen(3000);
 function start() {
     getTaskCollection()
@@ -37,21 +41,6 @@ function start() {
         insertNewTask(tasks, {
             name: 'run dish washer',
             day: 'sn',
-            frequency: 'w'
-        })
-        insertNewTask(tasks, {
-            name: 'unload dish washer',
-            day: 'm',
-            frequency: 'w'
-        })
-        insertNewTask(tasks, {
-            name: 'empty recycling',
-            day: 't',
-            frequency: 'w'
-        })
-        insertNewTask(tasks, {
-            name: 'walk dog',
-            day: ['m', 'th'],
             frequency: 'w'
         })
         tasks.find({})
