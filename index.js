@@ -28,7 +28,11 @@ router.get('/tasks', function(req, res, next) {
     })
 });
 router.post('/task', function(req, res, next) {
-    console.log(req.body);
+    getTaskCollection()
+    .then((tasks) => {
+        insertNewTask(tasks, req.body)
+    })
+    res.send("inserted" + req.body);
 });
 
 function start() {
