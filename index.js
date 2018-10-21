@@ -25,10 +25,35 @@ router.get('/tasks', function(req, res, next) {
 });
 
 app.use('/', router);
-app.listen(8080);
+app.listen(3000);
 function start() {
     getTaskCollection()
     .then((tasks) => {
+        //   let task = {
+//     name: 'water plants',
+//     day: 'm',
+//     frequency: 'oddWeek'
+// }
+        insertNewTask(tasks, {
+            name: 'run dish washer',
+            day: 'sn',
+            frequency: 'w'
+        })
+        insertNewTask(tasks, {
+            name: 'unload dish washer',
+            day: 'm',
+            frequency: 'w'
+        })
+        insertNewTask(tasks, {
+            name: 'empty recycling',
+            day: 't',
+            frequency: 'w'
+        })
+        insertNewTask(tasks, {
+            name: 'walk dog',
+            day: ['m', 'th'],
+            frequency: 'w'
+        })
         tasks.find({})
             .toArray()
             .then(function (docs) {
@@ -45,6 +70,8 @@ function start() {
                     console.log(josh.tasks);
                 });
         })
+
+
 }
 
 
