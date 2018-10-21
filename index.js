@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongodb = require('mongodb');
+var bodyParser = require('body-parser')
 var client = mongodb.MongoClient;
 var _ = require('lodash');
 //need to add a user with access to my table
@@ -28,7 +29,7 @@ router.post('/task', function(req, res, next) {
 });
 
 app.use('/', router);
-app.use(express.json());
+app.use(bodyParser.json());
 app.listen(3000);
 function start() {
     getTaskCollection()
