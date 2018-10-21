@@ -24,7 +24,7 @@ router.get('/tasks', function(req, res, next) {
     })
 });
 router.post('/task', function(req, res, next) {
-    console.log(req.body)
+    console.log(req);
 });
 
 app.use('/', router);
