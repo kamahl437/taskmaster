@@ -14,6 +14,12 @@ var app = express();
 //After that make an insert screen, then an assign to user screen.  Then you need to make the daemon that will schedule your tasks.
 
 app.use(bodyParser.json());
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
+  
 app.use('/', router);
 app.listen(8080);
 ///Yay this works
