@@ -40,6 +40,15 @@ router.post('/task', function(req, res, next) {
     })
     res.send("inserted" + req.body);
 });
+router.get('/users', function(req, res, next) {
+    getTaskQueueCollection()
+    .then((taskQueues) => {
+        taskQueues.find({})
+            .toArray()
+            .then((docs) => {
+                res.json(docs);
+            });
+});
 
 function start() {
     getTaskCollection()
