@@ -48,7 +48,10 @@ router.get('/users', function(req, res, next) {
             .then((docs) => {
                 res.json(docs);
             });
+    });
 });
+
+
 
 function start() {
     getTaskCollection()
