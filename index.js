@@ -50,6 +50,23 @@ router.get('/users', function(req, res, next) {
             });
     });
 });
+router.post('/user/:userId/task/:taskId', function(req, res, next) {
+    getTaskQueueCollection()
+    .then((taskQueues) => {
+        taskQueues.find({_id:userId})
+            .toArray()
+            .then((docs) => {
+                return docs;
+            })
+            .then((docs) => {
+                if(!docs.subscribed) {
+                    docs.subscribed = [];
+                }
+                docs.subscribed.push(taskId);
+                taskQueues.save(docs);
+            });
+    });
+});
 
 
 
@@ -139,8 +156,8 @@ start();
         })
   }
 //user already subed to ask, just adding to queue
-  function addTaskToQueue(user, task) {
-
+  function addTaskToQueue(collection, user, task) {
+    
   }
 //   let task = {
 //     name: 'water plants',
