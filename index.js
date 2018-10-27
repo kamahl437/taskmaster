@@ -55,13 +55,16 @@ router.post('/user/:userId/task/:taskId', function(req, res, next) {
     let taskId = req.params.taskId;
     getTaskQueueCollection()
     .then((taskQueues) => {
-        let user = taskQueues.find({id:userId})
-        console.log(user);
-        if(!user.subscribed) {
-            user.subscribed = [];
-        }
-        user.subscribed.push(taskId);
-        taskQueues.save(user);
+        taskQueues.find({id:userId})
+            .toArray()
+            .then((docs) => {
+                let user = docs[0];
+                if(!user.subscribed) {
+                    user.subscribed = [];
+                }
+                user.subscribed.push(taskId);
+                taskQueues.save(user);
+            });
     });
 });
 
