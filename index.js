@@ -64,6 +64,7 @@ router.post('/user/:userId/task/:taskId', function(req, res, next) {
                 }
                 user.subscribed.push(taskId);
                 taskQueues.save(user);
+                res.send('saved')
             });
     });
 });
