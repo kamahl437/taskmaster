@@ -4,6 +4,7 @@ var mongodb = require('mongodb');
 var bodyParser = require('body-parser')
 var client = mongodb.MongoClient;
 var _ = require('lodash');
+var ObjectId = require('mongodb').ObjectID
 //need to add a user with access to my table
 // var uri = "mongodb://root:example@192.168.1.134:27017/rolling-tasks";
 var uri = "mongodb://192.168.1.134:27017/rolling-tasks";
@@ -55,7 +56,7 @@ router.post('/user/:userId/task/:taskId', function(req, res, next) {
     let taskId = req.params.taskId;
     getTaskQueueCollection()
     .then((taskQueues) => {
-        taskQueues.find({_id:ObjectId(userId)})
+        taskQueues.find({"_id":ObjectId(userId)})
             .toArray()
             .then((docs) => {
                 let user = docs[0];
