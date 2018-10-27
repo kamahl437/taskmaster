@@ -53,7 +53,7 @@ router.get('/users', function(req, res, next) {
 router.post('/user/:userId/task/:taskId', function(req, res, next) {
     getTaskQueueCollection()
     .then((taskQueues) => {
-        taskQueues.find({_id:userId})
+        taskQueues.find({id:userId})
             .toArray()
             .then((docs) => {
                 return docs;
