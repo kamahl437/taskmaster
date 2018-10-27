@@ -55,7 +55,7 @@ router.post('/user/:userId/task/:taskId', function(req, res, next) {
     let taskId = req.params.taskId;
     getTaskQueueCollection()
     .then((taskQueues) => {
-        taskQueues.find({id:userId})
+        taskQueues.find({_id:userId})
             .toArray()
             .then((docs) => {
                 let user = docs[0];
