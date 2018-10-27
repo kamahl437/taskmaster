@@ -51,6 +51,8 @@ router.get('/users', function(req, res, next) {
     });
 });
 router.post('/user/:userId/task/:taskId', function(req, res, next) {
+    let userId = request.params.userId;
+    let taskId = request.params.taskId;
     getTaskQueueCollection()
     .then((taskQueues) => {
         taskQueues.find({id:userId})
