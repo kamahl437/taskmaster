@@ -59,6 +59,7 @@ router.post('/user/:userId/task/:taskId', function(req, res, next) {
                 return docs;
             })
             .then((docs) => {
+                console.log(docs);
                 if(!docs.subscribed) {
                     docs.subscribed = [];
                 }
