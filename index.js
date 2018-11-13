@@ -119,6 +119,8 @@ function addSubscribedTasks(user, taskId) {
                 .toArray()
                 .then((tasks) => {
                     let task = tasks[0];
+                    console.log('in the cb')
+                    console.log(task)
                     if (shouldAddTask(user.evenWeek, task)) {
                         let taskCopy = _.deepCopy(task);
                         taskCopy.entryDate = Date();
