@@ -112,7 +112,8 @@ function shouldAddTask(evenWeek, task) {
 function addSubscribedTasks(user) {
     _.each(user.subscribed, (id) => {
         getTaskCollection()
-            .find(ObjectId(id))
+        .then((tasks) => {
+            tasks.find(ObjectId(id))
             .toArray()
             .then((tasks) => {
                 let task = tasks[0];
@@ -123,6 +124,8 @@ function addSubscribedTasks(user) {
                     return user;
                 }
             })
+        });
+           
     });
 }
 
