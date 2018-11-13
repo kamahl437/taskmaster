@@ -123,6 +123,7 @@ function addSubscribedTasks(user, taskId) {
                         let taskCopy = _.deepCopy(task);
                         taskCopy.entryDate = Date();
                         user.tasks.push(taskCopy);
+                        console.log(user);
                         return user;
                     }
                 })
