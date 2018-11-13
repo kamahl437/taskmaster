@@ -51,6 +51,21 @@ router.get('/users', function(req, res, next) {
             });
     });
 });
+
+router.get('/user/:userId', function(req, res, next) {
+    let userId = req.params.userId;
+    getTaskQueueCollection()
+    .then((taskQueues) => {
+        taskQueues.find(ObjectId(userId))
+            .toArray()
+            .then((docs) => {
+                res.json(docs[0]);
+            });
+    });
+});
+
+
+//subscribes a user to a task schedge
 router.post('/user/:userId/task/:taskId', function(req, res, next) {
     let userId = req.params.userId;
     let taskId = req.params.taskId;
@@ -70,36 +85,46 @@ router.post('/user/:userId/task/:taskId', function(req, res, next) {
     });
 });
 
+router.get('/daemon', function(req, res, next) {
+    daemon();
+});
 
-
-function start() {
-    getTaskCollection()
-    .then((tasks) => {
-        tasks.find({})
-            .toArray()
-            .then(function (docs) {
-               
-            });
-    })
-
-    getTaskQueueCollection()
-        .then((taskQueues) => {
-            taskQueues.find({})
-                .toArray()
-                .then(function (docs) {
-                    let josh = _.find(docs, {name: 'josh'});
-                    console.log(josh.tasks);
+function daemon() {
+    getTaskQueueCollection()//users
+    .then(taskQueues)
+        taskQueues.find({})//get all of the users
+        .toArray()
+        .then((users) => {
+            _.each(users,(user) => {//iterate the users
+                addSubscribedTasks(user).then((updatedUser) => {
+                    taskQueues.save(updatedUser);
                 });
-        })
-
-
+            });
+        });
+}
+// check if I should add to the queue
+function shouldAddTask(evenWeek, task) {
+    //I should later determine if its the right day and stuff
+    return true;
 }
 
-
-
-function closeConnection() {
-    databaseConection.close();
+function addSubscribedTasks(user) {
+    _.each(user.subscribed, (id) => {
+        getTaskCollection()
+            .find(ObjectId(id))
+            .toArray()
+            .then((tasks) => {
+                let task = tasks[0];
+                if(shouldAddTask(user.evenWeek, task)) {
+                    let taskCopy = _.deepCopy(task);
+                    taskCopy.entryDate = Date();
+                    user.tasks.push(taskCopy);
+                    return user;
+                }
+            })
+    });
 }
+
 
 function getConnection() {
     if(databaseConection != null) {
@@ -141,11 +166,6 @@ function insertNewTask(collection, task) {
 
 }
 
-start();
-  //subbing the dude to the task
-  function subscribeUserToTask(user, task) {
-
-  }
 //obv, but wondering there has to be a better way than passing the user around to every method.
   function finishTask(user, task) {
 
@@ -161,11 +181,6 @@ start();
   function addTaskToQueue(collection, user, task) {
     
   }
-//   let task = {
-//     name: 'water plants',
-//     day: 'm',
-//     frequency: 'oddWeek'
-// }
 
 // let userQueue = {
 //     name: 'josh',
@@ -189,66 +204,5 @@ start();
 //         }
 //     ]
 // }
-
-// router.get('/team/all', function(req, res, next) {
-//   client.connect(uri, function (err, db) {
-//     if (err) return next(err);
-//     var collection = db.collection('team');
-//     collection.find({}).toArray(function(err, docs) {
-//       if (err) return next(err);
-//       return res.json(docs);
-//     });
-//   });
-// });
-
-// router.get('/team/:teamId', function(req, res, next) {
-//   getTeam(req.params.teamId, next).then(function (results) {
-//     console.log('in he promise')
-//     res.json(results);
-//   });
-// });
-
-
-
-// router.post('/team', function(req, res, next) {
-//   console.log('im in the method!')
-//   var response = saveTeam(req.body, next);
-//   return res.json(response);
-// });
-
-// // this method works but does not send back a proper response for some strange reason.  It sends error every time
-// function saveTeam(team, cb) {
-//   console.log(team);
-//   var response = 'error'
-//   client.connect(uri, function (err, db) {
-// 	    if (err) cb(err)
-//     	var collection = db.collection('team');
-//     	collection.insert(team, function(err, result) {
-//         console.log(result);
-//         if(err){cb(err)}
-// 			response =  { result: "success" };
-//     	});
-//   db.close();
-// 	});
-//   return response;
-// }
-
-// // this method works but does not send back a proper response for some strange reason.  It sends blank every time
-// function getTeam(teamIdArg, cb) {
-//   return client.connect(uri).then( function (db) {
-//     //if (err) return cb(err);  I believe if I want this to work just use a catch instead
-//     var collection = db.collection('team');
-//     return collection.find({teamId:parseInt(teamIdArg)}).toArray().then(function(docs) {
-//       console.log(`the docs for ${teamIdArg}`);
-//       console.log(docs);
-//       //if (err) return cb(err); I believe if I want this to work just use a catch instead
-//       db.close();
-//       return docs;
-//     });
-//   });
-//   // the reason this doesn't work is because it gets returned before the above
-//   //call back resolves... derp derp'
-// }
-
 
 module.exports = router;
