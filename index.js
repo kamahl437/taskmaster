@@ -88,6 +88,7 @@ router.post('/user/:userId/task/:taskId', function (req, res, next) {
 
 router.get('/daemon', function (req, res, next) {
     daemon();
+    res.send('daemon triggered')
 });
 
 function daemon() {
