@@ -115,7 +115,7 @@ function shouldAddTask(evenWeek, task) {
 function addSubscribedTasks(user, taskId) {
     return getTaskCollection()
         .then((tasks) => {
-            tasks.find(ObjectId(taskId))
+            return tasks.find(ObjectId(taskId))
                 .toArray()
                 .then((tasks) => {
                     let task = tasks[0];
