@@ -120,10 +120,9 @@ function addSubscribedTasks(user, taskId) {
                 .then((tasks) => {
                     let task = tasks[0];
                    // if (shouldAddTask(user.evenWeek, task)) {
-                        let taskCopy = _.deepCopy(task);
+                        let taskCopy = _.cloneDeep(task);
                         taskCopy.entryDate = Date();
                         user.tasks.push(taskCopy);
-                        console.log(user);
                         return user;
                    // }
                 })
