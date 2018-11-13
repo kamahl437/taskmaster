@@ -91,7 +91,7 @@ router.get('/daemon', function(req, res, next) {
 
 function daemon() {
     getTaskQueueCollection()//users
-    .then(taskQueues)
+    .then((taskQueues) => {
         taskQueues.find({})//get all of the users
         .toArray()
         .then((users) => {
@@ -101,6 +101,7 @@ function daemon() {
                 });
             });
         });
+    });
 }
 // check if I should add to the queue
 function shouldAddTask(evenWeek, task) {
