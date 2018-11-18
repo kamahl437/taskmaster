@@ -55,7 +55,8 @@ router.get('/users', function (req, res, next) {
 
 router.get('/user/:userId', function (req, res, next) {
     let userId = req.params.userId;
-    getUserById(userId).then((user) => res.json(user))
+    user = await getUserById(userId)
+    res.json(user);
 });
 
 router.delete('/user/:userId/task/:taskId', function (req, res, next) {
@@ -105,7 +106,7 @@ function daemon() {
         });
 }
 
-function getUserById(userId) {
+async function getUserById(userId) {
     return getTaskQueueCollection()
     .then((taskQueues) => {
         return taskQueues.find(ObjectId(userId))
