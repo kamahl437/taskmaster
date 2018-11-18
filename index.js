@@ -55,14 +55,11 @@ router.get('/users', function (req, res, next) {
 
 router.get('/user/:userId', function (req, res, next) {
     let userId = req.params.userId;
-    getTaskQueueCollection()
-        .then((taskQueues) => {
-            taskQueues.find(ObjectId(userId))
-                .toArray()
-                .then((docs) => {
-                    res.json(docs[0]);
-                });
-        });
+    getUserById(userId).then((user) => res.json(user))
+});
+
+router.delete('/user/:userId/task/:taskId', function (req, res, next) {
+
 });
 
 
@@ -107,6 +104,18 @@ function daemon() {
                 });
         });
 }
+
+function getUserById(userId) {
+    return getTaskQueueCollection()
+    .then((taskQueues) => {
+        taskQueues.find(ObjectId(userId))
+            .toArray()
+            .then((docs) => {
+                return docs[0];
+            });
+    });
+}
+
 // check if I should add to the queue
 function shouldAddTask(evenWeek, task) {
     //I should later determine if its the right day and stuff
