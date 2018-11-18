@@ -53,7 +53,7 @@ router.get('/users', function (req, res, next) {
         });
 });
 
-router.get('/user/:userId', function (req, res, next) {
+router.get('/user/:userId', async function (req, res, next) {
     let userId = req.params.userId;
     user = await getUserById(userId)
     res.json(user);
