@@ -108,7 +108,7 @@ function daemon() {
 function getUserById(userId) {
     return getTaskQueueCollection()
     .then((taskQueues) => {
-        taskQueues.find(ObjectId(userId))
+        return taskQueues.find(ObjectId(userId))
             .toArray()
             .then((docs) => {
                 return docs[0];
